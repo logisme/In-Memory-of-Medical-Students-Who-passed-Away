@@ -1,0 +1,515 @@
+/* 详情页专属样式 */
+.header {
+    background: #fff;
+    border-bottom: 2px solid #e0e0e0;
+    padding: 1rem 2rem;
+}
+.header .back {
+    color: #d32f2f;
+    text-decoration: none;
+    font-size: 1rem;
+}
+.header .back i {
+    margin-right: 0.5rem;
+}
+.header .name {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin-top: 0.5rem;
+}
+
+/* 详情页主体容器 */
+.detail-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+/* 个人信息模块 */
+.info-section {
+    margin-bottom: 3rem;
+}
+.info-section .content {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.info-section .avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+.info-section .basic {
+    flex: 1;
+}
+.info-section .basic .row {
+    display: flex;
+    margin-bottom: 1rem;
+}
+.info-section .basic .label {
+    width: 8rem;
+    flex-shrink: 0;
+    font-weight: 600;
+    color: #666;
+}
+.info-section .basic .value {
+    flex: 1;
+}
+
+/* 时间线模块 - 彻底解决重叠 + 拉开竖线与时间距离（核心重构） */
+.timeline-section {
+    margin-bottom: 3rem;
+}
+/* 统一时间线容器（合并重复定义，避免样式冲突） */
+.timeline-list, #timelineList {
+    position: relative;
+    padding-left: 85px; /* 大幅增加左侧留白，拉开时间与竖线 */
+    max-width: 100%;
+    box-sizing: border-box;
+    list-style: none;
+    margin: 0;
+}
+/* 竖线样式：右移，与时间文本彻底拉开 */
+.timeline-list::before, #timelineList::before {
+    content: "";
+    position: absolute;
+    left: 80px; /* 竖线位置右移，增加与时间间距 */
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #d32f2f;
+    z-index: 1;
+}
+/* 单个时间线项（统一样式，去重） */
+.timeline-item {
+    position: relative;
+    margin-bottom: 25px; /* 加大项间距，更透气 */
+    padding: 12px 18px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+/* 时间文本：左移更多，固定宽度，强制单行（解决重叠） */
+.timeline-item .date {
+    position: absolute;
+    left: -100px; /* 左移增加，远离竖线 */
+    top: 12px;
+    width: 90px; /* 加宽时间容器，避免换行 */
+    text-align: right;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 14px;
+    white-space: nowrap; /* 强制单行，杜绝重叠 */
+    z-index: 3;
+}
+/* 时间点标记：对准新的竖线位置 */
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -96px; /* 匹配竖线位置，居中 */
+    top: 12px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #e53935;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #e5393533;
+    z-index: 4;
+}
+/* 时间线内容（清除重复样式） */
+.timeline-item .content {
+    color: #333;
+    line-height: 1.6;
+    font-size: 14px;
+    margin: 0;
+    background: transparent;
+    padding: 0;
+    border-left: none;
+}
+
+/* 媒体通告模块 */
+.media-section {
+    margin-bottom: 3rem;
+}
+.media-item {
+    background: #f9f9f9;
+    padding: 1.2rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0;
+}
+.media-item .title a {
+    color: #d32f2f;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+.media-item .title a:hover {
+    text-decoration: underline;
+}
+.media-item .source {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0.5rem 0;
+}
+.media-item .content {
+    color: #333;
+}
+
+/* 社交话题模块 - 适配本地图片图标（相对路径）+ 样式美化 */
+.social-section {
+    margin-bottom: 3rem;
+}
+.social-item {
+    padding: 12px 16px;
+    border-radius: 6px;
+    background: #f8f9fa;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+    box-sizing: border-box;
+}
+/* 平台标签：图标+文字布局优化（相对路径图片适配） */
+.social-item .platform {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* 图标与文字间距 */
+    padding: 0.3rem 1rem;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000 !important; /* 平台文字强制黑色 */
+    margin-bottom: 8px;
+    background: #f0f0f0; /* 浅灰背景衬托图标 */
+}
+/* 本地图标通用样式（相对路径） */
+.social-item .platform .platform-icon {
+    width: 24px;  /* 图标宽度，匹配图片比例 */
+    height: 24px; /* 图标高度，保持正方形 */
+    object-fit: contain; /* 防止图片变形 */
+    display: inline-block;
+    vertical-align: middle;
+}
+/* 社交项标题/描述 */
+.social-item .title a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+.social-item .title a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+.social-item .desc {
+    margin-top: 6px;
+    color: #666;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+/* 心语寄思模块 */
+.message-section {
+    margin-bottom: 3rem;
+}
+.message-form textarea {
+    width: 100%;
+    height: 120px;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    resize: vertical;
+    margin-bottom: 1rem;
+}
+.message-list .item {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border-left: 3px solid #d32f2f;
+}
+.message-list .item .author {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed #f0f0f0;
+}
+
+/* 验证码 */
+.captcha-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+.captcha-formula {
+    font-size: 16px;
+    padding: 8px 12px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+}
+.captcha-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+}
+.captcha-input:focus {
+    border-color: #66afe9;
+}
+.captcha-tip {
+    color: #e63946;
+    font-size: 14px;
+    margin: 8px 0;
+}
+.message-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 100px;
+    outline: none;
+}
+.message-form textarea:focus {
+    border-color: #e63946;
+}
+.btn {
+    background: #e63946;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+.btn:hover {
+    background: #d12f3c; /* hover加深，有反馈 */
+}
+
+/* 图片放大遮罩层 */
+.img-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+}
+.img-modal img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border: 4px solid #fff;
+    border-radius: 4px;
+}
+.img-modal .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.img-modal .close-btn:hover {
+    color: #ff4444;
+}
+
+/* 头像鼠标样式 */
+.avatar {
+    cursor: zoom-in;
+    transition: transform 0.3s;
+}
+.avatar:hover {
+    transform: scale(1.02);
+}
+
+/* 响应式适配 - 全端兼容 */
+@media (max-width: 768px) {
+    /* 个人信息 */
+    .info-section .content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .info-section .avatar {
+        width: 100%;
+        height: auto;
+    }
+    /* 时间线：移动端彻底避免重叠 */
+    .timeline-list, #timelineList {
+        padding-left: 1rem;
+    }
+    .timeline-list::before, #timelineList::before {
+        display: none; /* 隐藏竖线 */
+    }
+    .timeline-item .date {
+        position: static;
+        width: 100%;
+        text-align: left;
+        margin-bottom: 0.5rem;
+        color: #d32f2f;
+        left: 0;
+        top: 0;
+    }
+    .timeline-item::before {
+        display: none; /* 隐藏时间点 */
+    }
+    .timeline-item {
+        padding: 10px 15px;
+        margin-bottom: 20px;
+    }
+    /* 社交模块：移动端适配 */
+    .social-item .platform {
+        padding: 0.2rem 0.8rem;
+        font-size: 13px;
+    }
+    .social-item .platform .platform-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* 轮播容器基础样式 */
+.avatar-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 400px; /* 可根据需求调整 */
+  margin: 0 auto;
+}
+
+.carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px; /* 可选：圆角 */
+}
+
+.carousel-inner {
+  display: flex;
+  width: 100%;
+  height: auto;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+  width: 100%;
+}
+
+.carousel-item img.avatar {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* 翻页按钮样式 - 核心 */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+/* 禁用状态 */
+.carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* 鼠标悬停效果 */
+.carousel-btn:not(:disabled):hover {
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 左按钮位置 */
+.prev-btn {
+  left: 10px;
+}
+
+/* 右按钮位置 */
+.next-btn {
+  right: 10px;
+}
+
+/* 箭头图标样式 */
+.carousel-arrow {
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* 指示器样式（可选优化） */
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #000000;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.indicator.active {
+  background-color: #666;
+}
+
+/* 图片放大弹窗样式（保留原有） */
+.img-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.img-modal img {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
