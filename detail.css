@@ -1,0 +1,525 @@
+/* ========== 基础重置与通用样式 ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Microsoft Yahei", sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+.header .name {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* ========== 信息模块（轮播适配） ========== */
+.info-section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+}
+
+.info-section .content {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* 轮播容器样式 */
+.avatar-carousel {
+  width: 300px;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.carousel-wrapper {
+  width: 100%;
+  height: 360px;
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-item img.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  /* 黑白滤镜（可选，贴合纪念页氛围） */
+  filter: grayscale(80%);
+  transition: filter 0.3s ease;
+}
+
+.carousel-item img.avatar:hover {
+  filter: grayscale(20%);
+}
+
+/* 轮播按钮 */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.3s ease;
+}
+
+.carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.carousel-btn:hover:not(:disabled) {
+  background: rgba(0,0,0,0.7);
+}
+
+.prev-btn {
+  left: 10px;
+}
+
+.next-btn {
+  right: 10px;
+}
+
+.carousel-arrow {
+  font-size: 18px;
+}
+
+/* 轮播指示器 */
+.carousel-indicators {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.indicator.active {
+  background: #fff;
+}
+
+/* 基础信息样式 */
+.basic {
+  flex: 1;
+  min-width: 0;
+}
+
+.basic .row {
+  display: flex;
+  margin-bottom: 15px;
+  border-bottom: 1px dashed #eee;
+  padding-bottom: 10px;
+}
+
+.basic .row:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.basic .label {
+  width: 100px;
+  font-weight: bold;
+  color: #555;
+  flex-shrink: 0;
+}
+
+.basic .value {
+  flex: 1;
+  color: #666;
+  word-break: break-all;
+}
+
+/* ========== 时间线/媒体/社交 通用样式 ========== */
+.timeline-section, .media-section, .social-section, .message-section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 45px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 35px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #eee;
+}
+
+.empty-tip {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+  font-size: 14px;
+}
+
+/* ========== 时间线样式 ========== */
+.timeline-item {
+  margin-bottom: 20px;
+  padding-left: 20px;
+  border-left: 2px solid #eee;
+  position: relative;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-item .date {
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 5px;
+  position: absolute;
+  left: -20px;
+  top: 0;
+  background: #fff;
+  padding-right: 10px;
+}
+
+.timeline-item .content {
+  color: #666;
+  padding-left: 55px;
+}
+
+/* ========== 媒体通告样式 ========== */
+.media-item {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed #eee;
+}
+
+.media-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.media-item .title a {
+  color: #2c3e50;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.media-item .title a:hover {
+  color: #e74c3c;
+}
+
+.media-item .source {
+  font-size: 12px;
+  color: #999;
+  margin: 5px 0;
+}
+
+.media-item .source a {
+  color: #999;
+  text-decoration: none;
+}
+
+.media-item .source a:hover {
+  color: #e74c3c;
+}
+
+.media-item .content {
+  color: #666;
+  line-height: 1.8;
+}
+
+/* ========== 社交平台样式（适配本地图标） ========== */
+.social-item {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed #eee;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.social-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.social-item .platform {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  color: #2c3e50;
+  flex-shrink: 0;
+}
+
+/* 社交平台图标样式 */
+.platform-icon {
+  width: 55px;
+  height: 25px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.social-item .title a {
+  color: #2c3e50;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-item .title a:hover {
+  color: #e74c3c;
+}
+
+.social-item .desc {
+  color: #666;
+  margin-top: 5px;
+  line-height: 1.6;
+}
+
+/* ========== 留言模块 + 验证码样式 ========== */
+.message-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.message-form textarea {
+  width: 100%;
+  height: 120px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.message-form textarea:focus {
+  outline: none;
+  border-color: #e74c3c;
+}
+
+/* 验证码容器 */
+.captcha-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* 验证码公式（可点击刷新） */
+#captchaFormula {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2c3e50;
+  cursor: pointer;
+  padding: 8px 15px;
+  background: #f8f8f8;
+  border-radius: 4px;
+  user-select: none;
+  transition: background 0.3s ease;
+}
+
+#captchaFormula:hover {
+  background: #eee;
+}
+
+/* 验证码输入框 */
+#captchaInput {
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 120px;
+}
+
+#captchaInput:focus {
+  outline: none;
+  border-color: #e74c3c;
+}
+
+/* 验证码提示 */
+#captchaTip {
+  color: #e74c3c;
+  font-size: 12px;
+  display: none;
+  margin-left: 10px;
+}
+
+/* 提交按钮 */
+#submitBtn {
+  align-self: flex-start;
+  padding: 10px 20px;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+#submitBtn:hover {
+  background: #16a085;
+}
+
+/* 留言列表 */
+#messageList {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+#messageList .item {
+  padding: 15px;
+  border-bottom: 1px dashed #eee;
+}
+
+#messageList .item:last-child {
+  border-bottom: none;
+}
+
+#messageList .author {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 5px;
+}
+
+#messageList .content {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* ========== 图片放大弹窗样式 ========== */
+.img-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+#modalImg {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #ccc;
+}
+
+/* ========== 响应式适配 ========== */
+@media (max-width: 768px) {
+  .info-section .content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .avatar-carousel {
+    width: 100%;
+    height: auto;
+  }
+
+  .carousel-wrapper {
+    height: 300px;
+  }
+
+  .basic .row {
+    flex-direction: column;
+  }
+
+  .basic .label {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .social-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .captcha-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #captchaInput {
+    width: 100%;
+  }
+}

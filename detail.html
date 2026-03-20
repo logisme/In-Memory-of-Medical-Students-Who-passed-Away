@@ -5,104 +5,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>加载中... | 白衣初心 纪念页</title>
-    <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/detail.css">
-
+    <!-- 1. 先定义基准路径（适配GitHub Pages） -->
+    <script>
+        // 固定仓库名前缀，避免自动识别出错
+        const baseUrl = '/In-Memory-of-Medical-Students-Who-passed-Away/';
+        // 动态加载CSS（核心：拼接基准路径）
+        document.write(`
+            <link rel="stylesheet" href="${baseUrl}css/common.css">
+            <link rel="stylesheet" href="${baseUrl}css/detail.css">
+            <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        `);
+    </script>
 </head>
 
 <body>
-    <!-- 顶部导航 -->
     <header class="header">
-        <a href="../index.html" class="back">返回首页</a> <!-- 移除font-awesome图标，避免样式冲突 -->
+        <!-- 2. 返回首页链接适配路径 -->
+        <a href="${baseUrl}index.html" class="back"><i class="fas fa-arrow-left"></i> 返回首页</a>
         <div class="name">加载中...</div>
     </header>
-    <!-- 详情页主体 -->
+
     <div class="detail-container">
-        <!-- 1. 个人信息模块（仅保留容器，内容由JS从comrades.json渲染） -->
+        <!-- 逝者信息 -->
         <section class="info-section">
-            <h2 class="title">逝者信息</h2> <!-- 移除font-awesome图标 -->
+            <h2 class="section-title">逝者信息</h2>
             <div class="content">
-                <!-- 内容由detail.js的renderComradeDetail函数动态渲染 -->
-            </div>
-        </section>
-
-        <!-- 2. 事件时间线 -->
-        <section class="timeline-section">
-            <h2 class="title">事件时间线</h2> <!-- 移除font-awesome图标 -->
-            <div class="timeline-list" id="timelineList">
-                <!-- 时间线由JS动态渲染 -->
-            </div>
-        </section>
-
-        <!-- 3. 官方媒体通告 -->
-        <section class="media-section">
-            <h2 class="title">官方/媒体通告</h2> <!-- 移除font-awesome图标 -->
-            <div class="media-list" id="mediaList">
-                <!-- 媒体数据由JS动态渲染（适配deceased_data.json） -->
-            </div>
-        </section>
-
-        <!-- 4. 社交平台话题（核心修改：适配本地图片图标） -->
-        <section class="social-section">
-            <h2 class="title">社交平台话题</h2> <!-- 移除font-awesome图标 -->
-            <div class="social-list" id="socialList">
-                <!-- 社交数据由JS动态渲染，渲染模板需包含本地图标 -->
-            </div>
-        </section>
-
-        <!-- 5. 心语寄思 -->
-        <section class="message-section">
-            <h2 class="title">心语寄思</h2> <!-- 移除font-awesome图标 -->
-            <div class="message-form">
-                <textarea placeholder="在这里留下你想对逝者说的话..." id="messageTextarea"></textarea>
-                <div class="captcha-group">
-                    <span class="captcha-formula" id="captchaFormula">点击生成验证码</span>
-                    <input type="text" class="captcha-input" id="captchaInput" placeholder="输入计算结果">
+                <img class="avatar" src="" alt="逝者头像" onclick="openImgModal(this.src)">
+                <div class="basic">
+                    <div class="row">
+                        <div class="label">姓名：</div>
+                        <div class="value" id="name"></div>
+                    </div>
+                    <div class="row">
+                        <div class="label">年龄：</div>
+                        <div class="value" id="age"></div>
+                    </div>
+                    <div class="row">
+                        <div class="label">规培医院：</div>
+                        <div class="value" id="hospital"></div>
+                    </div>
+                    <div class="row">
+                        <div class="label">离世时间：</div>
+                        <div class="value" id="passTime"></div>
+                    </div>
+                    <div class="row">
+                        <div class="label">离世原因：</div>
+                        <div class="value" id="reason"></div>
+                    </div>
                 </div>
-                <div class="captcha-tip" id="captchaTip" style="display: none;">验证码错误，请重新输入！</div>
-                <button class="btn" id="submitBtn">提交寄语</button>
             </div>
-            <div class="message-list" id="messageList">
-                <!-- 留言由JS动态渲染 -->
+        </section>
+
+        <!-- 事件时间线 -->
+        <section class="timeline-section">
+            <h2 class="section-title">事件时间线</h2>
+            <ul class="timeline-list" id="timelineList"></ul>
+        </section>
+
+        <!-- 官方/媒体通告 -->
+        <section class="media-section">
+            <h2 class="section-title">官方/媒体通告</h2>
+            <div class="media-list" id="mediaList"></div>
+        </section>
+
+        <!-- 社交平台话题 -->
+        <section class="social-section">
+            <h2 class="section-title">社交平台话题</h2>
+            <div class="social-list" id="socialList"></div>
+        </section>
+
+        <!-- 心语寄思 -->
+        <section class="message-section">
+            <h2 class="section-title">心语寄思</h2>
+            <div class="message-form">
+                <textarea placeholder="在这里留下你想对逝者说的话..."></textarea>
+                <div class="captcha-group">
+                    <div class="captcha-formula" onclick="generateCaptcha()">点击生成验证码</div>
+                    <input type="text" class="captcha-input" placeholder="输入计算结果">
+                </div>
+                <div class="captcha-tip"></div>
+                <button class="btn" onclick="submitMessage()">提交寄语</button>
             </div>
+            <div class="message-list" id="messageList"></div>
         </section>
     </div>
 
-    <!-- 页脚 -->
-    <footer class="footer">
-        <p>白衣执甲，初心如故 | 谨以此页，纪念永远的医学同袍</p>
-        <p style="margin-top: 0.8rem; opacity: 0.7;">© 2026 所有同袍 共同缅怀</p>
-    </footer>
     <!-- 图片放大弹窗 -->
-    <div class="img-modal" id="imgModal">
-        <span class="close-btn" id="closeImgModal">&times;</span>
+    <div class="img-modal" onclick="closeImgModal()">
+        <span class="close-btn" onclick="closeImgModal()">&times;</span>
         <img id="modalImg" src="" alt="放大图片">
     </div>
-    <!-- 通过模块脚本加载detail.js并挂载到全局 -->
-    <script type="module">
-        // 导入detail.js的所有导出方法
-        import * as detailModule from '../js/detail.js';
 
-        // 将模块方法挂载到window，供普通脚本调用
-        window.detailModule = detailModule;
-
-        // 从URL参数中获取id的工具函数
+    <!-- 3. JS路径适配（核心：拼接基准路径） -->
+    <script>
+        // 全局基准路径（供detail.js使用）
+        window.baseUrl = '/In-Memory-of-Medical-Students-Who-passed-Away/';
+        // 加载detail.js并传递参数
         function getUrlParam(key) {
             const searchParams = new URLSearchParams(window.location.search);
             return searchParams.get(key);
         }
-
-        // 获取URL中的id参数（如 sun / yyy）
         const comradeId = getUrlParam('id');
 
-        // 校验id并初始化详情页
-        if (comradeId) {
-            detailModule.initDetail(comradeId); // 动态传入JSON中的id
-        } else {
-            // 无有效id时的降级处理
-            alert('未找到有效纪念信息');
-            window.location.href = '../index.html';
+        // 动态加载detail.js
+        const script = document.createElement('script');
+        script.src = window.baseUrl + 'js/detail.js';
+        script.onload = function () {
+            if (comradeId && window.detailModule) {
+                window.detailModule.initDetail(comradeId);
+            } else {
+                alert('未找到有效纪念信息');
+                window.location.href = window.baseUrl + 'index.html';
+            }
+        };
+        document.body.appendChild(script);
+
+        // 图片放大/关闭函数
+        function openImgModal(src) {
+            const modal = document.querySelector('.img-modal');
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = src;
+            modal.style.display = 'flex';
         }
+        function closeImgModal(e) {
+            if (e) e.stopPropagation();
+            const modal = document.querySelector('.img-modal');
+            modal.style.display = 'none';
+        }
+
+        // 验证码相关函数（临时占位，detail.js里会覆盖）
+        function generateCaptcha() { }
+        function submitMessage() { }
     </script>
 </body>
 
