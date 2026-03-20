@@ -1,7 +1,7 @@
 /**
  * 首页渲染逻辑：加载逝者核心信息，生成卡片式板块
  */
-import { getFolderImages } from './fileUtils.js'; // 导入工具函数
+import { getFolderImages } from '../fileUtils.js'; // 导入工具函数
 
 async function initIndex() {
   // 加载逝者数据
