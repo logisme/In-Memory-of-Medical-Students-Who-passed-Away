@@ -1,6 +1,6 @@
 // 保留你原有引入（无需可注释）
-import { readCache, writeCache, isCacheExpired } from './cacheManager.js';
-import { getFolderImages } from './fileUtils.js'; // 导入工具函数
+import { readCache, writeCache, isCacheExpired } from '../cacheManager.js';
+import { getFolderImages } from '../fileUtils.js'; // 导入工具函数
 
 // ========== 迁移进来的生效逻辑（核心） ==========
 let correctCaptchaAnswer = 0; // 验证码正确答案（内联script中生效的变量）
