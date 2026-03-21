@@ -138,7 +138,7 @@ function bindSubmitEvent(comradeId) {
 
 async function getComradeDetail(comradeId) {
   try {
-    const res = await fetch('../data/comrades.json');
+    const res = await fetch('./data/comrades.json');
     const data = await res.json();
     return data.find(item => item.id === comradeId);
   } catch (e) {
