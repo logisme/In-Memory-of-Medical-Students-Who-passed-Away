@@ -368,12 +368,11 @@ function renderSocial(data) {
   // 关键：平台与本地图标路径映射（根据HTML位置调整路径！）
   // 若HTML在pages/下，路径为 ../icon/xxx；若和icon同级，改为 ./icon/xxx
   const platformIconMap = {
-    '知乎': '../icon/zhihu.png',
-    '小红书': '../icon/xhs.png',
-    '微博': '../icon/weibo.jpg',
-    '微信公众号': '../icon/weixin.png',
-    '搜狐': '../icon/sh.jpg',
-    '未知平台': '../icon/default.png' // 可选：新增默认图标
+    '知乎': './icon/zhihu.webp',
+    '小红书': './icon/xhs.webp',
+    '微博': './icon/weibo.webp',
+    '微信公众号': './icon/weixin.webp',
+    '搜狐': './icon/sh.webp'
   };
 
   // 渲染社交项（替换字体图标为本地图片）
