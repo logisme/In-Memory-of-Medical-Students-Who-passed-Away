@@ -5,7 +5,7 @@
  * @returns {Promise<string[]>} 图片路径数组
  */
 export async function getFolderImages(comradeId, ext = ['jpg', 'png']) {
-  const basePath = `../images/${comradeId}/`;
+  const basePath = `./images/${comradeId}/`;
   const maxTry = 5; // 最多尝试读取10张图片（可调整）
 
   // 核心修改：生成1~maxTry的序号数组，并行检查每张图片
