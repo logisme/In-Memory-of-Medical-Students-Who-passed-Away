@@ -1,7 +1,7 @@
 /**
  * 首页渲染逻辑：加载逝者核心信息，生成卡片式板块
  */
-import { getData } from '/In-Memory-of-Medical-Students-Who-passed-Away/js/fileUtils.js';
+import { getFolderImages } from '/In-Memory-of-Medical-Students-Who-passed-Away/js/fileUtils.js';
 
 async function initIndex() {
   // 加载逝者数据
