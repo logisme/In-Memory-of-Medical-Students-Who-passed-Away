@@ -5,30 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>加载中... | 白衣初心 纪念页</title>
-    <link rel="stylesheet" href="../css/common.css">
-    <link rel="stylesheet" href="../css/detail.css">
+    <!-- 核心修改：把 ../ 改为 /In-Memory-of-Medical-Students-Who-passed-Away/ （项目根路径） -->
+    <link rel="stylesheet" href="/In-Memory-of-Medical-Students-Who-passed-Away/css/common.css">
+    <link rel="stylesheet" href="/In-Memory-of-Medical-Students-Who-passed-Away/css/detail.css">
 
 </head>
 
 <body>
     <!-- 顶部导航 -->
     <header class="header">
-        <a href="../index.html" class="back">返回首页</a> <!-- 移除font-awesome图标，避免样式冲突 -->
+        <!-- 同步修复返回首页的路径 -->
+        <a href="/In-Memory-of-Medical-Students-Who-passed-Away/index.html" class="back">返回首页</a>
         <div class="name">加载中...</div>
     </header>
     <!-- 详情页主体 -->
     <div class="detail-container">
-        <!-- 1. 个人信息模块（仅保留容器，内容由JS从comrades.json渲染） -->
+        <!-- 1. 个人信息模块 -->
         <section class="info-section">
-            <h2 class="title">逝者信息</h2> <!-- 移除font-awesome图标 -->
+            <h2 class="title">逝者信息</h2>
             <div class="content">
-                <!-- 内容由detail.js的renderComradeDetail函数动态渲染 -->
+                <!-- 内容由JS渲染 -->
             </div>
         </section>
 
         <!-- 2. 事件时间线 -->
         <section class="timeline-section">
-            <h2 class="title">事件时间线</h2> <!-- 移除font-awesome图标 -->
+            <h2 class="title">事件时间线</h2>
             <div class="timeline-list" id="timelineList">
                 <!-- 时间线由JS动态渲染 -->
             </div>
@@ -36,23 +38,23 @@
 
         <!-- 3. 官方媒体通告 -->
         <section class="media-section">
-            <h2 class="title">官方/媒体通告</h2> <!-- 移除font-awesome图标 -->
+            <h2 class="title">官方/媒体通告</h2>
             <div class="media-list" id="mediaList">
-                <!-- 媒体数据由JS动态渲染（适配deceased_data.json） -->
+                <!-- 媒体数据由JS动态渲染 -->
             </div>
         </section>
 
-        <!-- 4. 社交平台话题（核心修改：适配本地图片图标） -->
+        <!-- 4. 社交平台话题 -->
         <section class="social-section">
-            <h2 class="title">社交平台话题</h2> <!-- 移除font-awesome图标 -->
+            <h2 class="title">社交平台话题</h2>
             <div class="social-list" id="socialList">
-                <!-- 社交数据由JS动态渲染，渲染模板需包含本地图标 -->
+                <!-- 社交数据由JS动态渲染 -->
             </div>
         </section>
 
         <!-- 5. 心语寄思 -->
         <section class="message-section">
-            <h2 class="title">心语寄思</h2> <!-- 移除font-awesome图标 -->
+            <h2 class="title">心语寄思</h2>
             <div class="message-form">
                 <textarea placeholder="在这里留下你想对逝者说的话..." id="messageTextarea"></textarea>
                 <div class="captcha-group">
@@ -80,8 +82,8 @@
     </div>
     <!-- 通过模块脚本加载detail.js并挂载到全局 -->
     <script type="module">
-        // 导入detail.js的所有导出方法
-        import * as detailModule from '../js/detail.js';
+        // 核心修改：修复detail.js的导入路径
+        import * as detailModule from '/In-Memory-of-Medical-Students-Who-passed-Away/js/detail.js';
 
         // 将模块方法挂载到window，供普通脚本调用
         window.detailModule = detailModule;
@@ -101,7 +103,8 @@
         } else {
             // 无有效id时的降级处理
             alert('未找到有效纪念信息');
-            window.location.href = '../index.html';
+            // 同步修复降级跳转的路径
+            window.location.href = '/In-Memory-of-Medical-Students-Who-passed-Away/index.html';
         }
     </script>
 </body>
