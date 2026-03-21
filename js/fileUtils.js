@@ -1,73 +1,71 @@
-// 保留原文件所有不变的代码结构，仅修改图片加载逻辑
-class FileUtils {
-    // 原文件的常量：每个文件夹最多10张图（按你的要求）
-    static MAX_IMAGES_PER_FOLDER = 10;
-    static SUPPORTED_IMAGE_EXTS = ['png', 'jpg', 'jpeg'];
+/**
+ * 读取指定ID对应文件夹下的所有图片（约定命名：1.jpg、2.jpg... 或 img1.png、img2.png）
+ * @param {string} comradeId 逝者ID（文件夹名）
+ * @param {string[]} ext 图片后缀
+ * @returns {Promise<string[]>} 图片路径数组
+ */
+export async function getFolderImages(comradeId, ext = ['jpg', 'png', 'jpeg']) {
+  const basePath = `../images/${comradeId}/`;
+  const maxTry = 10; // 最多尝试读取10张图片（可调整）
 
-    /**
-     * 原文件函数：加载单个图片（仅优化错误捕获和存在性检查）
-     * @param {string} folderPath 文件夹路径
-     * @param {number} index 图片序号
-     * @returns {Promise<HTMLImageElement|null>} 加载成功返回图片，失败返回null
-     */
-    static async loadSingleImage(folderPath, index) {
-        // 遍历所有支持的后缀，尝试加载
-        for (const ext of this.SUPPORTED_IMAGE_EXTS) {
-            const imgUrl = `${folderPath}/${index}.${ext}`;
-            try {
-                // 先发送HEAD请求判断图片是否存在（不下载内容，减少无效请求）
-                const headResp = await fetch(imgUrl, { method: 'HEAD' });
-                if (!headResp.ok) continue;
+  // 核心修改：生成1~maxTry的序号数组，并行检查每张图片
+  const imageCheckPromises = Array.from({ length: maxTry }, (_, i) => {
+    const index = i + 1; // 图片序号从1开始
+    // 检查单张图片的所有后缀（找到第一个存在的就返回路径）
+    return checkSingleImageWithExts(basePath, index, ext);
+  });
 
-                // 图片存在则正式加载（保留原文件的Image对象逻辑）
-                return new Promise((resolve) => {
-                    const img = new Image();
-                    img.src = imgUrl;
-                    img.onload = () => resolve(img);
-                    img.onerror = () => resolve(null); // 加载失败返回null，不报错
-                });
-            } catch (e) {
-                // 忽略单个图片的加载错误，继续尝试下一个后缀
-                continue;
-            }
-        }
-        return null; // 所有后缀都不存在，返回null
-    }
+  // 并行执行所有图片检查，等待全部完成
+  const imageResults = await Promise.all(imageCheckPromises);
+  // 过滤掉不存在的图片（null值），得到有效图片路径
+  const validImages = imageResults.filter(path => path !== null);
 
-    /**
-     * 原文件函数：加载指定文件夹的图片（仅优化循环逻辑，保留并行请求）
-     * @param {string} folderPath 文件夹路径
-     * @returns {Promise<HTMLImageElement[]>} 成功加载的图片数组
-     */
-    static async loadFolderImages(folderPath) {
-        // 生成1-10的序号数组（按你的要求：最多10张图）
-        const imageIndexes = Array.from({ length: this.MAX_IMAGES_PER_FOLDER }, (_, i) => i + 1);
-        
-        // 并行加载所有图片（保留原文件的Promise.all并行逻辑）
-        const imagePromises = imageIndexes.map(index => this.loadSingleImage(folderPath, index));
-        const images = await Promise.all(imagePromises);
-        
-        // 过滤掉加载失败的null，只保留有效图片
-        return images.filter(img => img !== null);
-    }
-
-    /**
-     * 原文件函数：并行加载多个文件夹的图片（完全保留原逻辑）
-     * @param {string[]} folderPaths 文件夹列表
-     * @returns {Promise<HTMLImageElement[]>} 所有成功加载的图片
-     */
-    static async loadAllFoldersParallel(folderPaths) {
-        // 保留原文件的多文件夹并行逻辑
-        const folderPromises = folderPaths.map(folder => this.loadFolderImages(folder));
-        const allImages = await Promise.all(folderPromises);
-        return allImages.flat();
-    }
-
-    // 保留原文件的其他所有函数（如果有），以下是示例占位（和原文件一致）
-    static getImagePath(folder, index) {
-        return `${folder}/${index}.png`;
-    }
+  // 保留原有兜底逻辑：无图片时使用默认图
+  if (validImages.length === 0) {
+    validImages.push('../images/default.jpg');
+  }
+  return validImages;
 }
 
-// 保留原文件的全局暴露（如果有）
-window.FileUtils = FileUtils;
+/**
+ * 检查单个序号的图片（遍历所有后缀，找到第一个存在的返回路径）
+ * @param {string} basePath 基础路径
+ * @param {number} index 图片序号
+ * @param {string[]} exts 后缀列表
+ * @returns {Promise<string|null>} 存在返回路径，不存在返回null
+ */
+async function checkSingleImageWithExts(basePath, index, exts) {
+  for (const e of exts) {
+    const imgPath = `${basePath}${index}.${e}`;
+    const exists = await checkImageExists(imgPath);
+    if (exists) {
+      return imgPath; // 找到存在的后缀，立即返回路径
+    }
+  }
+  return null; // 所有后缀都不存在，返回null
+}
+
+/**
+ * 检查图片是否存在（优化版：HEAD请求+降级兜底）
+ * @param {string} url 图片路径
+ * @returns {Promise<boolean>}
+ */
+function checkImageExists(url) {
+  return new Promise(async (resolve) => {
+    try {
+      // 优先用HEAD请求快速检查（不下载图片内容）
+      const response = await fetch(url, { 
+        method: 'HEAD',
+        mode: 'cors',
+        cache: 'no-cache'
+      });
+      resolve(response.ok); // 200-299状态码表示存在
+    } catch (err) {
+      // 降级为Image对象检查（兼容跨域/特殊场景）
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = `${url}?t=${Date.now()}`; // 避免缓存误判
+    }
+  });
+}
