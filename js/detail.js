@@ -372,7 +372,10 @@ function renderSocial(data) {
     '小红书': './icon/xhs.webp',
     '微博': './icon/weibo.webp',
     '微信公众号': './icon/weixin.webp',
-    '搜狐': './icon/sh.webp'
+    '搜狐': './icon/sh.webp',
+    '百度': './icon/baidu.webp',
+    '丁香园': './icon/dx.webp'
+  
   };
 
   // 渲染社交项（替换字体图标为本地图片）
